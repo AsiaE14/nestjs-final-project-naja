@@ -14,10 +14,10 @@
   ],
   "project": {
     "model": {
-      "id": null,
-      "name": null
+      "id": "9",
+      "name": "Library Management System"
     },
-    "sumStudentId": null
+    "sumStudentId": 272043209
   },
   "scripts": {
     "build": "nest build",
