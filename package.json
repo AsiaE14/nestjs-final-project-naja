@@ -7,17 +7,29 @@
   "license": "MIT",
   "contributors": [
     {
-      "fullname": "John Doe",
-      "username": "username1",
-      "studentId": "12345678"
+      "fullname1": "ปองภพ สวาคฆพรรณ",
+      "username1": "Mei-Yoko",
+      "studentId1": "68010679",
+      "fullname2": "ฆฤณ มาสง",
+      "username2": "Zer00ne",
+      "studentId2": "68010126",
+      "fullname3": "เตชิต แสนคำ ",
+      "username3": "V",
+      "studentId3": "68010401",
+      "fullname4": "กมลภพ กันแก้ว",
+      "username4": "fmolp",
+      "studentId4": "68010015"
     }
+    
+
+
   ],
   "project": {
     "model": {
-      "id": null,
-      "name": null
+      "id": 1,
+      "name": "Blog / Content Platform"
     },
-    "sumStudentId": null
+    "sumStudentId": 272041221
   },
   "scripts": {
     "build": "nest build",
