@@ -7,17 +7,27 @@
   "license": "MIT",
   "contributors": [
     {
-      "fullname": "John Doe",
-      "username": "username1",
-      "studentId": "12345678"
+      "fullname": "นฤชิต เชิงหอม",
+      "username": "NaruchitPrem",
+      "studentId": "68010578"
+    },
+    {
+      "fullname": "ทินภัทร ศิวกรตรัยคุณ",
+      "username": "68010417",
+      "studentId": "68010417"
+    },
+    {
+      "fullname": "",
+      "username": "",
+      "studentId": "68010468"
     }
   ],
   "project": {
     "model": {
-      "id": null,
-      "name": null
+      "id": "3",
+      "name": "Event Management System"
     },
-    "sumStudentId": null
+    "sumStudentId": 204031463
   },
   "scripts": {
     "build": "nest build",
