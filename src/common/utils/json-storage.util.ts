@@ -14,8 +14,15 @@ export class JsonStroage<T extends {id: String} >{
         try{
             const dir = path.dirname(this.filePath);
             await fs.mkdir(dir, {recursive: true});
-        }
-       
 
+        try{
+            const fileContent = await fs.readFile(this.filePath, 'utf-8');
+            this.data = JSON.parse(fileContent)
+        }catch{
+            this.data = [];
+        }   
+    }catch(error){
+        throw new Error('Failed to storage ${error}' )
     }
+}
 }
