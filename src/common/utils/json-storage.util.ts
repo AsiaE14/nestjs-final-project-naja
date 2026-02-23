@@ -36,7 +36,7 @@ export class JsonStroage<T extends {id: String} >{
         }
     }
 
-    async findAll (): Promise<void> {
-        
+    async findAll (): Promise<T[]> {
+        return [...this.data];
     }
 }
