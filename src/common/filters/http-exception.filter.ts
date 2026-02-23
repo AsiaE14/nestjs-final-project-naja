@@ -21,7 +21,6 @@ import {
       let message: string;
   
       if (exception instanceof HttpException) {
-        // ✅ เพิ่มบรรทัดนี้
         const httpException = exception as HttpException;
         
         status = httpException.getStatus();
