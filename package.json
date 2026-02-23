@@ -7,18 +7,29 @@
   "license": "MIT",
   "contributors": [
     {
-      "fullname": "John Doe",
-      "username": "username1",
-      "studentId": "12345678"
+      "fullname": "Penpitcha Nuntago",
+      "username": "penpitchanuntago",
+      "studentId": "68010826"
+    },
+    {
+      "fullname": "Phichayaphon Namman",
+      "username": "68010782",
+      "studentId": "68010782"
+    },
+    {
+      "fullname": "Wenus Sakaekhum",
+      "username": "minivalley01",
+      "studentId": "68011036"
     }
   ],
   "project": {
     "model": {
-      "id": null,
-      "name": null
+      "id": 4,
+      "name": "Task/Project Tracking"
     },
-    "sumStudentId": null
+    "sumStudentId": 20403264
   },
+  
   "scripts": {
     "build": "nest build",
     "format": "eslint \"{src,apps,libs}/**/*.ts\" --fix",
