@@ -24,5 +24,19 @@ export class JsonStroage<T extends {id: String} >{
     }catch(error){
         throw new Error('Failed to storage ${error}' )
     }
-}
+ }
+    
+    private async save(): Promise<void>{
+        try{
+            await fs.writeFile(
+                this.filePath,
+                JSON.stringify(this.data, null, 2), 'utf-8');
+        }catch (error){
+            throw new Error('Failed to save data ${error')
+        }
+    }
+
+    async findAll (): Promise<void> {
+        
+    }
 }
