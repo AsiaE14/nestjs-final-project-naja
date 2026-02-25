@@ -7,9 +7,19 @@
   "license": "MIT",
   "contributors": [
     {
-      "fullname": "John Doe",
-      "username": "username1",
-      "studentId": "12345678"
+      "fullname": "Thapanan Thapanan",
+      "username": "AsiaE14",
+      "studentId": "68010273"
+    },
+     {
+      "fullname": "Nutthasit Chauychoocherd",
+      "username": "NUTTOD",
+      "studentId": "68010378"
+    },
+     {
+      "fullname": "Chayakorn Pongkaew",
+      "username": "CmdrDream",
+      "studentId": "68010211"
     }
   ],
   "project": {
@@ -38,6 +48,8 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.1.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
