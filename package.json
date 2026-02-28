@@ -24,10 +24,10 @@
   ],
   "project": {
     "model": {
-      "id": null,
-      "name": null
+      "id": 2,
+      "name": "Course Registration System"
     },
-    "sumStudentId": null
+    "sumStudentId": 204030862
   },
   "scripts": {
     "build": "nest build",
