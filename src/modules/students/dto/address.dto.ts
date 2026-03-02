@@ -1,48 +1,28 @@
 import {
     IsString,
     IsNotEmpty,
-    isNumberString,
-    isNotEmpty,
-    IsEmail,
-    IsNumber,
-    IsPhoneNumber
-} from 'class-validator';
+    IsNumberString
+} from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger'
 
-import { ApiProperty } from '@nestjs/swagger';
-
-export class CreateStudentDto {
-    @ApiProperty({example: '68012354'})
+export class AddressDto {
+    @ApiProperty({ example: '123/23' })
     @IsString()
     @IsNotEmpty()
-    studentId!: string;
+    houseNumber!: string;
 
-    @ApiProperty({example: "Computer Engineering"})
+    @ApiProperty({ example: 'Prasert Manukit 29' })
     @IsString()
     @IsNotEmpty()
-    major!: string;
+    street!: string;
 
-    @ApiProperty({example: "Nuthasit"})
+    @ApiProperty({ example: 'Bangkok' })
     @IsString()
     @IsNotEmpty()
-    firstName!: string;
+    province!: string;
 
-    @ApiProperty({example: "Chauychoocherd"})
-    @IsString()
+    @ApiProperty({ example: '10125' })
+    @IsNumberString()
     @IsNotEmpty()
-    lastName!: string;
-
-    @ApiProperty({example: "1234nut@gmail.com"})
-    @IsEmail()
-    @IsNotEmpty()
-    email!: string;
-
-    @ApiProperty({example: "0234235567"})
-    @IsPhoneNumber()
-    @IsNotEmpty()
-    phone!: string;
-
-    @ApiProperty({example: "123452"})
-    @IsNumber()
-    @IsNotEmpty()
-    registeredCourseIds!: string;
+    postalcode!: string;
 }
