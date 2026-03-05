@@ -23,7 +23,8 @@ export interface Student {
 @Injectable()
 export class StudentsService {
   private readonly filepath = path.resolve(process.cwd(), 'data/students.json');
-
+  
+  //Checking data directory and students.json.
   async onModuleInit() {
     const dir = path.dirname(this.filepath);
     try {
