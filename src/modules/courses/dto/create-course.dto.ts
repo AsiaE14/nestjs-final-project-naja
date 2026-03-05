@@ -1,7 +1,6 @@
 import {
     IsString,
     IsNumber,
-    IsNumberString,
     IsNotEmpty,
     IsBoolean,
     IsEnum
@@ -35,6 +34,10 @@ export class CreateCouseDto {
     @IsNumber()
     @IsNotEmpty()
     capacity!: number;
+
+    @ApiProperty({ example: '25' })
+    @IsNumber()
+    enrolledCount!: number;
 
     @ApiProperty({ enum: CourseStatus, example: CourseStatus.OPEN })
     @IsEnum({CourseStatus})
