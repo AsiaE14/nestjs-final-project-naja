@@ -3,11 +3,11 @@ import {
     IsNotEmpty,
     IsEmail,
     IsNumber,
-    IsPhoneNumber,
     IsArray,
     ValidateNested,
     IsEnum,
-    IsBoolean
+    IsBoolean,
+    IsNumberString
 } from 'class-validator';
 
 import { Type } from 'class-transformer'
@@ -41,11 +41,11 @@ export class CreateStudentDto {
     email!: string;
 
     @ApiProperty({example: "0234235567"})
-    @IsPhoneNumber()
+    @IsNumberString()
     @IsNotEmpty()
     phone!: string;
 
-    @ApiProperty({example: "123452"})
+    @ApiProperty({example: ["123452"]})
     @IsArray()
     @IsString({ each: true })
     registeredCourseIds!: string[];
@@ -54,7 +54,7 @@ export class CreateStudentDto {
     @ValidateNested()
     @Type(() => AddressDto)
     @IsNotEmpty()
-    address!: string;
+    address!: AddressDto;
 
     @ApiProperty({ enum: StudentStatus, example: StudentStatus.ACTIVE })
     @IsEnum(StudentStatus)

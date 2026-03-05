@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { StudentStatus } from './enums/student-status.enum';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { AddressDto } from './dto/address.dto';
@@ -21,10 +21,10 @@ export interface Student {
 }
 
 @Injectable()
-export class StudentsService {
+export class StudentsService implements OnModuleInit {
   private readonly filepath = path.resolve(process.cwd(), 'data/students.json');
   
-  //Checking data directory and students.json.
+  // Checking data directory and students.json. ------------------------------------
   async onModuleInit() {
     const dir = path.dirname(this.filepath);
     try {
@@ -38,5 +38,32 @@ export class StudentsService {
     } catch {
       await fs.writeFile(this.filepath, JSON.stringify([]), 'utf-8')
     }
+  }
+
+  // read data from .json file. ------------------------------------
+  private async readData(): Promise<Student[]> {
+    const data = await fs.readFile(this.filepath, 'utf-8');
+    return JSON.parse(data)
+  }
+
+  // write data on .json file. ------------------------------------
+  private async writeData(data: Student[]): Promise<void> {
+    await fs.writeFile(this.filepath, JSON.stringify(data, null, 2), 'utf-8');
+  }
+
+  // CRUD system. ------------------------------------
+  async create(createStudentDto: CreateStudentDto): Promise<Student> {
+    const students = await this.readData();
+
+    const newStudent: Student = {
+      id: Math.random().toString(36).substring(2, 9),
+      ...createStudentDto,
+      createdAt: new Date(),
+    };
+
+    students.push(newStudent);
+    await this.writeData(students);
+
+    return newStudent;
   }
 }
