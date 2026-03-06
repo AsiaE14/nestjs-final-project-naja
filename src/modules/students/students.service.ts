@@ -24,7 +24,7 @@ export interface Student {
 export class StudentsService implements OnModuleInit {
   private readonly filepath = path.resolve(process.cwd(), 'data/students.json');
   
-  // Checking data directory and students.json. ------------------------------------
+  // Checking data directory and students.json. ---------------------------------
   async onModuleInit() {
     const dir = path.dirname(this.filepath);
     try {
@@ -40,18 +40,18 @@ export class StudentsService implements OnModuleInit {
     }
   }
 
-  // read data from .json file. ------------------------------------
+  // read data from .json file. -------------------------------------------------
   private async readData(): Promise<Student[]> {
     const data = await fs.readFile(this.filepath, 'utf-8');
     return JSON.parse(data)
   }
 
-  // write data on .json file. ------------------------------------
+  // write data on .json file. --------------------------------------------------
   private async writeData(data: Student[]): Promise<void> {
     await fs.writeFile(this.filepath, JSON.stringify(data, null, 2), 'utf-8');
   }
 
-  // CRUD system. ------------------------------------
+  // CRUD system. ---------------------------------------------------------------
   async create(createStudentDto: CreateStudentDto): Promise<Student> {
     const students = await this.readData();
 
@@ -65,5 +65,18 @@ export class StudentsService implements OnModuleInit {
     await this.writeData(students);
 
     return newStudent;
+  }
+
+  async findAll(): Promise<Student[]> {
+    return this.readData()
+  }
+
+  async findOne(id: string): Promise<Student> {
+    const data = await this.readData()
+    const student = data.find(s => s.id === id);
+    if (!student) {
+      throw new NotFoundException(`Student information not found\nID: ${id}`)
+    }
+    return student
   }
 }
