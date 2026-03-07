@@ -20,8 +20,8 @@ async function bootstrap(): Promise<void> {
 
   // Swagger/OpenAPI documentation
   const config = new DocumentBuilder()
-    .setTitle('NestJS Backend API')
-    .setDescription('API Documentation for NestJS Backend Project')
+    .setTitle('Course Registration API')
+    .setDescription('Documentation for Course Registration API')
     .setVersion('1.0')
     .addTag('api')
     .build();
