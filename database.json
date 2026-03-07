@@ -1,0 +1,38 @@
+{
+  "students": [
+    {
+      "studentId": "68012354",
+      "major": "Computer Engineering",
+      "firstName": "Somsak",
+      "lastName": "Chaimogkon",
+      "email": "example@example.com",
+      "password": "12345sdfjgnsnfjASDASD!",
+      "phone": "0234235567",
+      "status": "ACTIVE",
+      "isScholarship": false,
+      "maxCredit": 22,
+      "courses": [
+        {
+          "courseId": "CS101",
+          "title": "OOP Typescript",
+          "description": "Learning about OOP programming with Typescript.",
+          "credits": 4,
+          "capacity": 40,
+          "instructorName": "Prof. Kanason jaransuk",
+          "isElective": true
+        }
+      ]
+    }
+  ],
+  "courses": [
+    {
+      "courseId": "CS101",
+      "title": "OOP Typescript",
+      "description": "Learning about OOP programming with Typescript.",
+      "credits": 4,
+      "capacity": 40,
+      "instructorName": "Prof. Kanason jaransuk",
+      "isElective": true
+    }
+  ]
+}

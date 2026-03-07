@@ -1,53 +1,67 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+
+import { readDb, writeDb, DatabaseSchema } from '../../common/utils/json-db.util';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { Course } from './entities/course.entity';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Injectable()
-export class CourseService {
-  constructor(
-    @InjectRepository(Course)
-    private readonly courseRepository: Repository<Course>,
-  ) {}
 
-  async create(createCourseDto: CreateCourseDto) {
-    const existingCourse = await this.courseRepository.findOne({ 
-      where: { courseId: createCourseDto.courseId } 
-    });
-    
-    if (existingCourse) {
-      throw new ConflictException(`Already have subject: ${createCourseDto.courseId}`);
+  
+
+ export class CourseService {
+  async create(createCourseDto: CreateCourseDto): Promise<Course> {
+    const db: DatabaseSchema = readDb();
+
+    const isExist = db.courses.some(c => c.courseId === createCourseDto.courseId);
+    if (isExist) {
+      throw new ConflictException(`Course ID ${createCourseDto.courseId} already exists`);
     }
 
-    const newCourse = this.courseRepository.create(createCourseDto);
+    const newCourse: Course = {
+      ...createCourseDto
+    } as unknown as Course;
 
-    return await this.courseRepository.save(newCourse);
+    db.courses.push(newCourse);
+    writeDb(db);
+    
+    return newCourse;
   }
   
-  async findAll() {
-    return await this.courseRepository.find();
+  async findAll(): Promise<Course[]> {
+    const db = readDb();
+    return db.courses;
   }
 
-  async findOne(courseId: string) {
-    const course = await this.courseRepository.findOne({ where: { courseId } });
-    if (!course) {
-      throw new NotFoundException(`Can't find subject: ${courseId}`);
-    }
+  async findOne(id: string): Promise<Course> {
+    const db = readDb();
+    const course = db.courses.find(c => c.courseId === id);
+    if (!course) throw new NotFoundException(`NOT FOUND COURSE ID ${id}`);
     return course;
   }
 
-  async update(courseId: string, updateData: UpdateCourseDto) {
-    const course = await this.findOne(courseId);
+  async update(id: string, updateCourseDto: UpdateCourseDto): Promise<Course> {
+    const db = readDb();
+    const courseIndex = db.courses.findIndex(c => c.courseId === id);
+    if (courseIndex === -1) throw new NotFoundException(`NOT FOUND COURSE ID ${id}`);
     
-    const updatedCourse = this.courseRepository.merge(course, updateData);
-    
-    return await this.courseRepository.save(updatedCourse);
+    const updatedCourse: Course = { ...db.courses[courseIndex], ...updateCourseDto } as Course;
+    db.courses[courseIndex] = updatedCourse;
+
+    writeDb(db);
+    return updatedCourse;
   }
 
-  async remove(courseId: string) {
-    const course = await this.findOne(courseId);
-    return await this.courseRepository.remove(course);
+  async remove(id: string): Promise<Course> {
+    const db = readDb();
+    const courseIndex = db.courses.findIndex(c => c.courseId === id);
+    if (courseIndex === -1) throw new NotFoundException(`NOT FOUND COURSE ID ${id}`);
+
+    const removedCourse = db.courses[courseIndex];
+    db.courses.splice(courseIndex, 1); 
+
+    writeDb(db);
+    return removedCourse;
   }
+
 }
