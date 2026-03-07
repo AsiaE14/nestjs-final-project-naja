@@ -1,10 +1,16 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn } from 'typeorm';
-
+import { 
+  Entity,
+  PrimaryColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToMany,
+  JoinTable
+} from 'typeorm';
+import { Course } from '../../course/entities/course.entity'
 
 @Entity()
 export class Student {
-  
-
   @PrimaryColumn()
   studentId!: string;
 
@@ -35,7 +41,13 @@ export class Student {
   @Column()
   maxCredit!: number;
 
-
   @CreateDateColumn()
   createdAt!: Date;
+
+  @UpdateDateColumn()
+  updateAt!: Date;
+
+  @ManyToMany(() => Course, (course) => course.students)
+  @JoinTable()
+  courses!: Course[];
 }
