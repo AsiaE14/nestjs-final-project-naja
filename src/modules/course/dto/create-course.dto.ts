@@ -1,5 +1,8 @@
-import { IsString, IsNotEmpty, IsNumber, IsBoolean, Min, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsBoolean, Min, IsOptional, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { CourseStatus } from '../entities/course.entity';
+
+
 
 export class CreateCourseDto {
   @ApiProperty({ description: 'Course code or ID (acts as Primary Key)', example: 'CS101' })
@@ -35,4 +38,9 @@ export class CreateCourseDto {
   @ApiProperty({ description: 'Elective course indicator (true = elective, false = core/mandatory)', example: true })
   @IsBoolean()
   isElective!: boolean;
+
+  @ApiProperty({ description: 'Course availability status (true = OPEN, false = CLOSED)', example: 'OPEN' })
+  @IsEnum(CourseStatus)
+  @IsNotEmpty()
+  status!: CourseStatus;
 }

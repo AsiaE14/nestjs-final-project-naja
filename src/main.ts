@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/utils/http-exception.filter';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,8 @@ async function bootstrap(): Promise<void> {
       transform: true,
     }),
   );
+   //
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // Swagger/OpenAPI documentation
   const config = new DocumentBuilder()

@@ -11,7 +11,7 @@ export class CourseController {
 
   @Post()
   async create(@Body() createCourseDto: CreateCourseDto) {
-    const data = this.courseService.create(createCourseDto);
+    const data = await this.courseService.create(createCourseDto);
     return {
       success: true,
       message: 'Create course data successfully!',

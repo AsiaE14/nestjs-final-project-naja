@@ -4,6 +4,8 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { LoginStudentDto } from './dto/login-student.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse } from '../../common/interfaces/api-response.interface';
+import { Student } from './entities/student.entity';
 
 @ApiTags('Student')
 @Controller('student')
@@ -14,18 +16,28 @@ export class StudentController {
   @Post('login') 
   @HttpCode(HttpStatus.OK) // ส่งกลับสถานะ 200 OK แทน 201 Created
   
-  login(@Body() loginStudentDto: LoginStudentDto) {
-    return this.studentService.login(loginStudentDto);
+  async login(@Body() loginStudentDto: LoginStudentDto) {
+    const data = await this.studentService.login(loginStudentDto);
+   return {
+      success: true,
+      message: 'Student registered successfully!',
+      data: data
+    };
   }
 
 
   @Post('register')
-  create(@Body() createStudentDto: CreateStudentDto) {
-    return this.studentService.create(createStudentDto);
+  async create(@Body() createStudentDto: CreateStudentDto): Promise<ApiResponse<Student>> {
+    const data = await this.studentService.create(createStudentDto);
+    return {
+      success: true,
+      message: 'Student registered successfully!',
+      data: data
+    };
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<ApiResponse<Student[]>> {
     const students = await this.studentService.findAll();
     return {
       success: true,
@@ -35,7 +47,7 @@ export class StudentController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<ApiResponse<Student>> {
     const student = await this.studentService.findOne(id);
     return {
       success: true,
@@ -45,7 +57,7 @@ export class StudentController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+  async update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto): Promise<ApiResponse<Student>> {
     const updatedStudent = await this.studentService.update(id, updateStudentDto);
     return {
       success: true,
@@ -55,7 +67,7 @@ export class StudentController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<ApiResponse<Student>> {
     const removedStudent = await this.studentService.remove(id);
     return {
       success: true,
@@ -69,7 +81,7 @@ export class StudentController {
   async updateAll(
     @Param('id') id: string,
     @Body() updateStudentDto: CreateStudentDto 
-  ) {
+  ): Promise<ApiResponse<Student>> {
     const data = await this.studentService.update(id, updateStudentDto);
     return {
       success: true,
@@ -83,7 +95,7 @@ export class StudentController {
   async registerCourse(
     @Param('studentId') studentId: string,
     @Param('courseId') courseId: string
-  ) {
+  ): Promise<ApiResponse<Student>> {
     const data = await this.studentService.registerCourse(studentId, courseId);
     return {
       success: true,
