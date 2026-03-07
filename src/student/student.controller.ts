@@ -3,7 +3,9 @@ import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { LoginStudentDto } from './dto/login-student.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Student')
 @Controller('student')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
@@ -11,18 +13,11 @@ export class StudentController {
 
   @Post('login') 
   @HttpCode(HttpStatus.OK) // ส่งกลับสถานะ 200 OK แทน 201 Created
+  
   login(@Body() loginStudentDto: LoginStudentDto) {
     return this.studentService.login(loginStudentDto);
   }
 
- /* async login(@Body() loginDto:LoginStudentDto) {
-    const rusult = await this.studentService.login(loginDto);
-    return {
-      success: true,
-      message: 'เข้าสู่ระบบสำเร็จ!',
-      data: rusult.data,
-    };
-  }*/
 
   @Post('register')
   create(@Body() createStudentDto: CreateStudentDto) {
