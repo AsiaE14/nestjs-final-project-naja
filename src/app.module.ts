@@ -1,17 +1,11 @@
 import { Module } from '@nestjs/common';
-import { StudentModule } from './student/student.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { CourseModule } from './course/course.module';
+import { StudentModule } from './modules/student/student.module';
+import { CourseModule } from './modules/course/course.module';
+
+
 
 @Module({
-  imports: [ TypeOrmModule.forRoot({
-    type: 'sqlite',
-    database: 'student_management.sqlite',
-    entities:[__dirname + '/**/*.entity{.ts,.js}'],
-    synchronize: true,
-
-
-  }), StudentModule,CourseModule],
+  imports: [StudentModule, CourseModule],
   controllers: [],
   providers: [],
 })
