@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsEmail, IsBoolean, IsNumber, IsOptional, isNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, IsBoolean, IsNumber, IsOptional } from 'class-validator';
 
 export class Address {
     @IsString()
@@ -58,5 +58,8 @@ export class CreateStudentDto {
     @IsNumber()
     @IsNotEmpty()
     maxCredit!: number;
+
+
+    address!: Address;
 }
 
