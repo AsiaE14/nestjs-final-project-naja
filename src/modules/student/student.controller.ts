@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,HttpCode,HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post,Put, Body, Patch, Param, Delete,HttpCode,HttpStatus } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -29,7 +29,7 @@ export class StudentController {
     const students = await this.studentService.findAll();
     return {
       success: true,
-      message: 'ดึงข้อมูลนักศึกษาทั้งหมดสำเร็จ!',
+      message: 'all students retrieved successfully!',
       data: students,
     };
   }
@@ -39,7 +39,7 @@ export class StudentController {
     const student = await this.studentService.findOne(id);
     return {
       success: true,
-      message: 'ดึงข้อมูลนักศึกษาสำเร็จ!',
+      message: 'Student data retrieved successfully!',
       data: student,
     };
   }
@@ -49,7 +49,7 @@ export class StudentController {
     const updatedStudent = await this.studentService.update(id, updateStudentDto);
     return {
       success: true,
-      message: 'อัปเดตข้อมูลนักศึกษาสำเร็จ!',
+      message: 'Student data updated successfully!',
       data: updatedStudent,
     };
   }
@@ -59,8 +59,36 @@ export class StudentController {
     const removedStudent = await this.studentService.remove(id);
     return {
       success: true,
-      message: 'ลบข้อมูลนักศึกษาสำเร็จ!',
+      message: 'Student data removed successfully!',
       data: removedStudent,
+    };
+  }
+
+
+  @Put(':id')
+  async updateAll(
+    @Param('id') id: string,
+    @Body() updateStudentDto: CreateStudentDto 
+  ) {
+    const data = await this.studentService.update(id, updateStudentDto);
+    return {
+      success: true,
+      message: `Update student with id ${id} successfully!`,
+      data: data
+    };
+  }
+
+// ลงทะเบียนเรียน
+  @Post(':studentId/register/:courseId')
+  async registerCourse(
+    @Param('studentId') studentId: string,
+    @Param('courseId') courseId: string
+  ) {
+    const data = await this.studentService.registerCourse(studentId, courseId);
+    return {
+      success: true,
+      message: `Course registered successfully!`,
+      data: data
     };
   }
 }

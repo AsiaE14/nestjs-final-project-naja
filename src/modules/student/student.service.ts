@@ -1,4 +1,4 @@
-import { Injectable,NotFoundException } from '@nestjs/common';
+import { Injectable,NotFoundException,ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { LoginStudentDto } from './dto/login-student.dto';
@@ -46,7 +46,7 @@ export class StudentService {
   
     return {
       success: true,
-      message: 'เข้าสู่ระบบสำเร็จ!',
+      message: 'Login successful!',
       data: {
         studentId: student.studentId,
         firstName: student.firstName,
@@ -54,5 +54,26 @@ export class StudentService {
 
     }
    };
+  }
+
+
+  //ลงทะเบียนเรียน
+  async registerCourse(studentId: string, courseId: string) {
+    const student = await this.findOne(studentId); 
+
+    const course = await this.studentRepository.manager.getRepository('Course').findOne({ where: { courseId } });
+
+    if (!course) {
+      throw new NotFoundException(`Not found course id: ${courseId}`);
+    }
+
+    // เช็ก
+    const isAlreadyRegistered = student.courses.some(c => c.courseId === courseId);
+    if (isAlreadyRegistered) {
+      throw new ConflictException(`Student with ID ${studentId} has already registered for course ${courseId}`);
+    }
+    
+    student.courses.push(course as any);
+    return await this.studentRepository.save(student);
   }
 }
