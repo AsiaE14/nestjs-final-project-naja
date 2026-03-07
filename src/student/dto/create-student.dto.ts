@@ -56,4 +56,8 @@ export class CreateStudentDto {
     @IsNumber()
     @IsNotEmpty()
     maxCredit!: number;
+
+
+    address!: Address;
 }
+
