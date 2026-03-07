@@ -1,5 +1,5 @@
 import { Injectable,NotFoundException,ConflictException } from '@nestjs/common';
-import { Course } from '../course/entities/course.entity';
+import { Course,CourseStatus } from '../course/entities/course.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { readDb, writeDb,DatabaseSchema } from '../../common/utils/json-db.util';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -99,6 +99,13 @@ export class StudentService {
     const course = db.courses.find((c: Course) => c.courseId === courseId);
     if (!course) throw new NotFoundException(`Not found course id: ${courseId}`);
 
+// เช็กสถานะวิชา
+
+    if (course.status !== 'OPEN') {
+      throw new BadRequestException(
+        `can't register course ${courseId} (status ${course.status})`
+      );
+    }
     const student = db.students[studentIndex];
 
     // ป้องกันกรณีไม่มี array 
