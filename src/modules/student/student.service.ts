@@ -9,8 +9,6 @@ import { UnauthorizedException } from '@nestjs/common';
 import { LoginStudentDto } from './dto/login-student.dto';
 @Injectable()
 export class StudentService {
- 
-
   async create(createStudentDto: CreateStudentDto) {
     const db: DatabaseSchema = readDb();
     const isExist = db.students.some(s => s.studentId === createStudentDto.studentId);
@@ -19,6 +17,8 @@ export class StudentService {
     }
     const newStudent: Student = {
       ...createStudentDto,
+      createAt: new Date().toISOString(),
+      updateAt: new Date().toISOString(),
       courses: [] 
     } as unknown as Student;
 
@@ -26,23 +26,20 @@ export class StudentService {
     writeDb(db);
     
     return newStudent;
-
-    
   }
 
  async findAll():Promise<Student[]> {
   const db = readDb();
     return db.students;
-   
   }
 
   async findOne(id: string): Promise<Student> {
     const db = readDb();
     const student = db.students.find(s => s.studentId === id);
     if (!student) throw new NotFoundException(`NOT FOUND STUDENT ID ${id}`);
+    
     return student;
   }
-
 
   async update(id: string, update: UpdateStudentDto): Promise<Student> {
     const db = readDb();
@@ -86,7 +83,6 @@ export class StudentService {
     };
   }
 
-
   //ลงทะเบียนเรียน
   async registerCourse(studentId: string, courseId: string): Promise<Student> {
     const db = readDb();
@@ -99,8 +95,7 @@ export class StudentService {
     const course = db.courses.find((c: Course) => c.courseId === courseId);
     if (!course) throw new NotFoundException(`Not found course id: ${courseId}`);
 
-// เช็กสถานะวิชา
-
+    // เช็กสถานะวิชา
     if (course.status !== 'OPEN') {
       throw new BadRequestException(
         `can't register course ${courseId} (status ${course.status})`
@@ -118,6 +113,7 @@ export class StudentService {
     if (isAlreadyRegistered) {
       throw new ConflictException(`Student with ID ${studentId} has already registered for course ${courseId}`);
     }
+
     //เช็กหน่วยกิต
     const currentCredits = student.courses.reduce((sum, c) => sum + c.credits, 0);
     if (currentCredits + course.credits > student.maxCredit) {
@@ -125,6 +121,7 @@ export class StudentService {
         `can't register course (max: ${student.maxCredit} credits)`
       );
     }
+    
     //เช็กว่ายังมีที่นั่งไหม
     const enrolledStudentsCount = db.students.filter(s => 
       s.courses?.some(c => c.courseId === courseId)
@@ -136,11 +133,17 @@ export class StudentService {
       );
     }
 
-
     // ลงทะเบียนเรียน 
     student.courses.push(course);
     db.students[studentIndex] = student;
     
+    // อัพเดตยอดผู้เรียน (enrollcount)
+    const courseIndexToUpdate = db.courses.findIndex(c => c.courseId === courseId);
+    if (courseIndexToUpdate !== -1) {
+      const currentCount = db.courses[courseIndexToUpdate].enrolledCount;
+      db.courses[courseIndexToUpdate].enrolledCount = (currentCount || 0) + 1;
+    }
+
     writeDb(db);
     return student;
   }

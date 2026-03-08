@@ -12,19 +12,11 @@ import { Student } from './entities/student.entity';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
-
   @Post('login') 
   @HttpCode(HttpStatus.OK) // ส่งกลับสถานะ 200 OK แทน 201 Created
-  
   async login(@Body() loginStudentDto: LoginStudentDto) {
-    const data = await this.studentService.login(loginStudentDto);
-   return {
-      success: true,
-      message: 'Student registered successfully!',
-      data: data
-    };
+    return await this.studentService.login(loginStudentDto)
   }
-
 
   @Post('register')
   async create(@Body() createStudentDto: CreateStudentDto): Promise<ApiResponse<Student>> {
@@ -75,7 +67,6 @@ export class StudentController {
       data: removedStudent,
     };
   }
-
 
   @Put(':id')
   async updateAll(
