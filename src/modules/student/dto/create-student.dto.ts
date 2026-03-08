@@ -1,8 +1,6 @@
 import { IsString, IsNotEmpty, IsEmail, IsBoolean, IsNumber, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-
-
 export enum StudentStatus {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE',

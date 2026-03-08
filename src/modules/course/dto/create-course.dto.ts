@@ -2,8 +2,6 @@ import { IsString, IsNotEmpty, IsNumber, IsBoolean, Min, IsOptional, IsEnum } fr
 import { ApiProperty } from '@nestjs/swagger';
 import { CourseStatus } from '../entities/course.entity';
 
-
-
 export class CreateCourseDto {
   @ApiProperty({ description: 'Course code or ID (acts as Primary Key)', example: 'CS101' })
   @IsString()

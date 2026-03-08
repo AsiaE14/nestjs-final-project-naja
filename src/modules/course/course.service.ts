@@ -6,9 +6,6 @@ import { Course } from './entities/course.entity';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Injectable()
-
-  
-
  export class CourseService {
   async create(createCourseDto: CreateCourseDto): Promise<Course> {
     const db: DatabaseSchema = readDb();
@@ -19,7 +16,10 @@ import { UpdateCourseDto } from './dto/update-course.dto';
     }
 
     const newCourse: Course = {
-      ...createCourseDto
+      ...createCourseDto,
+      enrolledCount: 0,
+      createdAt: new Date().toISOString(),
+      updateAt: new Date().toISOString(),
     } as unknown as Course;
 
     db.courses.push(newCourse);
@@ -45,7 +45,11 @@ import { UpdateCourseDto } from './dto/update-course.dto';
     const courseIndex = db.courses.findIndex(c => c.courseId === id);
     if (courseIndex === -1) throw new NotFoundException(`NOT FOUND COURSE ID ${id}`);
     
-    const updatedCourse: Course = { ...db.courses[courseIndex], ...updateCourseDto } as Course;
+    const updatedCourse: Course = {
+      ...db.courses[courseIndex],
+      ...updateCourseDto,
+      updateAt: new Date().toISOString()
+    } as Course;
     db.courses[courseIndex] = updatedCourse;
 
     writeDb(db);
