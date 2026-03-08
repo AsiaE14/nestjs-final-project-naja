@@ -37,6 +37,8 @@ import { UpdateCourseDto } from './dto/update-course.dto';
     const db = readDb();
     const course = db.courses.find(c => c.courseId === id);
     if (!course) throw new NotFoundException(`NOT FOUND COURSE ID ${id}`);
+
+    course.enrolledCount = course.enrolledCount || 0;
     return course;
   }
 

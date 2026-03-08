@@ -19,12 +19,24 @@
       "firstName": "Somsak",
       "lastName": "Chaimogkon",
       "email": "example@example.com",
-      "password": "123",
+      "password": "12345sdfjgnsnfjASDASD!",
       "phone": "0234235567",
       "status": "ACTIVE",
-      "isScholarship": false,
+      "isScholarship": true,
       "maxCredit": 22,
-      "courses": []
+      "courses": [
+        {
+          "courseId": "CS107",
+          "title": "OOP Typescript",
+          "description": "Learning about OOP programming with Typescript.",
+          "credits": 4,
+          "capacity": 40,
+          "instructorName": "Prof. Kanason jaransuk",
+          "isElective": true,
+          "status": "OPEN",
+          "enrolledCount": 2
+        }
+      ]
     },
     {
       "studentId": "68012344",
@@ -49,7 +61,8 @@
       "capacity": 40,
       "instructorName": "Prof. Kanason jaransuk",
       "isElective": true,
-      "status": "CLOSED"
+      "status": "CLOSED",
+      "updateAt": "2026-03-08T05:27:34.252Z"
     },
     {
       "courseId": "CS101",
@@ -59,7 +72,8 @@
       "capacity": 40,
       "instructorName": "Prof. Kanason jaransuk",
       "isElective": true,
-      "status": "CLOSED"
+      "status": "OPEN",
+      "updateAt": "2026-03-08T04:53:39.086Z"
     },
     {
       "courseId": "CS107",
@@ -69,7 +83,8 @@
       "capacity": 40,
       "instructorName": "Prof. Kanason jaransuk",
       "isElective": true,
-      "status": "OPEN"
+      "status": "OPEN",
+      "enrolledCount": 1
     },
     {
       "courseId": "CS103",

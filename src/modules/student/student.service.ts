@@ -37,6 +37,7 @@ export class StudentService {
     const db = readDb();
     const student = db.students.find(s => s.studentId === id);
     if (!student) throw new NotFoundException(`NOT FOUND STUDENT ID ${id}`);
+    
     return student;
   }
 
@@ -139,7 +140,8 @@ export class StudentService {
     // อัพเดตยอดผู้เรียน (enrollcount)
     const courseIndexToUpdate = db.courses.findIndex(c => c.courseId === courseId);
     if (courseIndexToUpdate !== -1) {
-      db.courses[courseIndexToUpdate].enrolledCount += 1;
+      const currentCount = db.courses[courseIndexToUpdate].enrolledCount;
+      db.courses[courseIndexToUpdate].enrolledCount = (currentCount || 0) + 1;
     }
 
     writeDb(db);
